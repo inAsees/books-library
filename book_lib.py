@@ -1,4 +1,3 @@
-from datetime import datetime
 import bson.json_util as json_util
 import pymongo
 from flask import Flask, request
@@ -43,7 +42,7 @@ def get_books_in_price_range():
         return {"status": "Some ERROR occurred."}, 400
 
 
-@app.route('/api/books_in_pr_range_name_and_category', methods=['POST'])
+@app.route('/api/books_in_per_range_name_and_category', methods=['POST'])
 def get_books_in_price_range_name_and_category():
     data = request.json
     books_obj = mydb["BOOKS"].find()
@@ -66,7 +65,7 @@ def book_issue():
     person_name = data["person_name"]
     book_name = data["book_name"]
     issue_date = data["issue_date"]
-    final_date = utils.get_valid_date(issue_date)
+    final_date = utils.get_valid_date_format(issue_date)
     if final_date is None:
         return {"status": "Invalid date format '{}'".format(issue_date)}, 400
 
@@ -77,14 +76,30 @@ def book_issue():
     else:
         return {"status": "Book '{}' not found".format(book_name)}, 400
 
-    try:
-        yr, mon, day = map(int, issue_date.split('-'))
-        issue_date = datetime(yr, mon, day)
-    except ValueError:
-        return {"status": "Invalid issue date '{}'".format(issue_date)}, 400
 
-    mydb["TRANSACTIONS"].insert_one({"person": person, "book": book_name, "issue_date": issue_date})
-    return {"status": "Book '{0}' issued successfully to '{1}' on '{2}'.".format(book_name, person, issue_date)}, 200
+@app.route('/api/book_return', methods=['POST'])
+def book_return():
+    data = request.json
+    person_name = data["person_name"]
+    book_name = data["book_name"]
+    return_date = data["return_date"]
+
+    final_date = utils.get_valid_date_format(return_date)
+    if final_date is None:
+        return {"status": "Invalid date format '{}'".format(return_date)}, 400
+
+    check = utils.is_book_issued(book_name, person_name, final_date, mydb)
+    if check is None:
+        return {"status": "Invalid return date '{}'.".format(return_date)}, 400
+    elif check:
+        rent_per_day = utils.rent_per_day(book_name,mydb)
+        total_rent = utils.update_return_date_and_total_rent(final_date, rent_per_day, mydb)
+        return {"status": "Book '{0}' returned successfully by '{1}' on '{2}'. Total rent is Rs {3}".format(book_name,
+                                                                                                            person_name,
+                                                                                                            return_date,
+                                                                                                            total_rent)}, 200
+    else:
+        return {"status": "Book '{}' not issued to '{}'.".format(book_name, person_name)}, 400
 
 
 if __name__ == '__main__':
