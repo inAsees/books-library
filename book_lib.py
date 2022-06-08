@@ -1,3 +1,4 @@
+from datetime import datetime
 import bson.json_util as json_util
 import pymongo
 from flask import Flask, request
@@ -10,11 +11,11 @@ mydb = myclient["library"]
 
 @app.route('/api/search_book', methods=['POST'])
 def get_book():
-    text = request.json
-    books_obj = mydb["BOOKS"].find()
+    data = request.json
+    books = mydb["BOOKS"].find()
     res = []
-    for book in books_obj:
-        if text["name"] in book["book_name"]:
+    for book in books:
+        if data["name"] in book["book_name"]:
             res.append(json_util.dumps(book))
     if len(res) == 0:
         return {"status": "No books found"}, 400
@@ -26,11 +27,11 @@ def get_book():
 
 @app.route('/api/books_in_price_range', methods=['POST'])
 def get_books_in_price_range():
-    text = request.json
+    data = request.json
     books_obj = mydb["BOOKS"].find()
     res = []
     for book in books_obj:
-        if text["min_price"] <= book["rent_per_day"] <= text["max_price"]:
+        if data["min_price"] <= book["rent_per_day"] <= data["max_price"]:
             res.append(json_util.dumps(book))
     if len(res) == 0:
         return {"status": "No books found"}, 400
@@ -42,12 +43,12 @@ def get_books_in_price_range():
 
 @app.route('/api/books_in_pr_range_name_and_category', methods=['POST'])
 def get_books_in_price_range_name_and_category():
-    text = request.json
+    data = request.json
     books_obj = mydb["BOOKS"].find()
     res = []
     for book in books_obj:
-        if text["min_price"] <= book["rent_per_day"] <= text["max_price"] and text["name"] in book["book_name"] and \
-                text["category"] in book["category"]:
+        if data["min_price"] <= book["rent_per_day"] <= data["max_price"] and data["name"] in book["book_name"] and \
+                data["category"] in book["category"]:
             res.append(json_util.dumps(book))
     if len(res) == 0:
         return {"status": "No books found"}, 400
@@ -55,6 +56,30 @@ def get_books_in_price_range_name_and_category():
         return {"books": res}, 200
     else:
         return {"status": "Some ERROR occurred."}, 400
+
+
+@app.route('/api/book_issue', methods=['POST'])
+def book_issue():
+    data = request.json
+    person = data["person_name"]
+    book_name = data["book_name"]
+    issue_date = data["issue_date"]
+    flag = False
+    for book in mydb["BOOKS"].find():
+        if book_name == book["book_name"]:
+            flag = True
+            break
+    if not flag:
+        return {"status": "Book '{}' not found".format(book_name)}, 400
+
+    try:
+        yr, mon, day = map(int, issue_date.split('-'))
+        issue_date = datetime(yr, mon, day)
+    except ValueError:
+        return {"status": "Invalid issue date '{}'".format(issue_date)}, 400
+
+    mydb["TRANSACTIONS"].insert_one({"person": person, "book": book_name, "issue_date": issue_date})
+    return {"status": "Book '{0}' issued successfully to '{1}' on '{2}'.".format(book_name, person, issue_date)}, 200
 
 
 if __name__ == '__main__':
