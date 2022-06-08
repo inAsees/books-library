@@ -2,9 +2,11 @@ from datetime import datetime
 import bson.json_util as json_util
 import pymongo
 from flask import Flask, request
+from utils import Utilities
 
 app = Flask(__name__)
 
+utils = Utilities()
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["library"]
 
@@ -61,15 +63,18 @@ def get_books_in_price_range_name_and_category():
 @app.route('/api/book_issue', methods=['POST'])
 def book_issue():
     data = request.json
-    person = data["person_name"]
+    person_name = data["person_name"]
     book_name = data["book_name"]
     issue_date = data["issue_date"]
-    flag = False
-    for book in mydb["BOOKS"].find():
-        if book_name == book["book_name"]:
-            flag = True
-            break
-    if not flag:
+    final_date = utils.get_valid_date(issue_date)
+    if final_date is None:
+        return {"status": "Invalid date format '{}'".format(issue_date)}, 400
+
+    if utils.is_book_available(book_name, mydb):
+        mydb["TRANSACTIONS"].insert_one({"person_name": person_name, "book_name": book_name, "issue_date": final_date})
+        return {"status": "Book '{0}' issued successfully to '{1}' on '{2}'.".format(book_name, person_name,
+                                                                                     issue_date)}, 200
+    else:
         return {"status": "Book '{}' not found".format(book_name)}, 400
 
     try:
