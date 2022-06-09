@@ -45,7 +45,7 @@ class Utilities:
                     doc["total_rent"] == 0:
                 self._id = doc["_id"]
                 self._issue_date = doc["issue_date"]
-                if not self._is_return_date_valid(return_date, doc["issue_date"]):
+                if not self.is_date_valid(return_date, doc["issue_date"]):
                     return None
                 return True
         return False
@@ -107,10 +107,28 @@ class Utilities:
         return res
 
     @staticmethod
+    def get_books_issued_in_date_range(start_date: date, end_date: date, mydb: Database) -> List[str]:
+        res = []
+        for doc in mydb["TRANSACTIONS"].find():
+            if isinstance(doc["issue_date"], datetime) and start_date <= doc["issue_date"] <= end_date:
+                res.append(doc["book_name"])
+        return res
+
+    @staticmethod
     def rent_per_day(book_name: str, mydb: Database) -> int:
         for data in mydb["BOOKS"].find():
             if book_name == data["book_name"]:
                 return data["rent_per_day"]
+
+    @staticmethod
+    def is_date_valid(issue_date: date, return_date: date) -> bool:
+        """
+        Check if the return date is valid.
+        :param return_date: return date in date format.
+        :param issue_date: issue date in date format.
+        :return: True or False.
+        """
+        return return_date > issue_date
 
     def _get_total_rent(self, return_date: date, issue_date: date, rent_per_day: int) -> int:
         """
@@ -121,13 +139,3 @@ class Utilities:
         """
         delta = self.get_date_delta(issue_date, return_date)
         return rent_per_day * delta
-
-    @staticmethod
-    def _is_return_date_valid(return_date: date, issue_date: date) -> bool:
-        """
-        Check if the return date is valid.
-        :param return_date: return date in date format.
-        :param issue_date: issue date in date format.
-        :return: True or False.
-        """
-        return return_date > issue_date

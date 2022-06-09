@@ -136,5 +136,25 @@ def books_issued_to_person():
     return {"books": res}, 200
 
 
+@app.route('/api/search_books_in_date_range', methods=['POST'])
+def books_issued_in_date_range():
+    data = request.json
+    start_date = data["start_date"]
+    end_date = data["end_date"]
+    final_start_date = utils.get_valid_date_format(start_date)
+    final_end_date = utils.get_valid_date_format(end_date)
+
+    if final_start_date is None:
+        return {"status": "Invalid start date format '{}'".format(start_date)}, 400
+    elif final_end_date is None:
+        return {"status": "Invalid end date format '{}'".format(end_date)}, 400
+
+    if not utils.is_date_valid(final_start_date, final_end_date):
+        return {"status": "Invalid date range '{}' to '{}'".format(start_date, end_date)}, 400
+
+    books_issued_in_date_range = utils.get_books_issued_in_date_range(final_start_date, final_end_date, mydb)
+    return {"books": books_issued_in_date_range}, 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)
