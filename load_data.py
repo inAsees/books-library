@@ -18,7 +18,9 @@ def insert_sample_dataset():
 
 
 if __name__ == "__main__":
-    myclient = pymongo.MongoClient("mongodb://localhost:27017")
-    mydb = myclient["library"]
+    client = pymongo.MongoClient(
+        "mongodb+srv://gurasees_singh:Guru123456@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
+    db = client.test
+    mydb = client["library"]
 
     insert_sample_dataset()
