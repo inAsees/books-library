@@ -3,7 +3,7 @@ import pymongo
 
 def insert_sample_dataset():
     books = mydb["BOOKS"]
-    book_names = ["In Search of Lost Time", " Ulysses ", "Don Quixote", "The Great Gatsby", "Moby Dick", "Hamlet",
+    book_names = ["In Search of Lost Time", "Ulysses", "Don Quixote", "The Great Gatsby", "Moby Dick", "Hamlet",
                   "The Odyssey", "The Iliad", "One Hundred Years of Solitude", "The Republic", "The Book of Job",
                   "The Book of Kahlil", "War and Peace ", "Madame Bovary", "The Divine Comedy",
                   "The Brothers Karamazov",
