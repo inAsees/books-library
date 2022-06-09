@@ -1,5 +1,8 @@
+import os
+
 import bson.json_util as json_util
 import pymongo
+from dotenv import load_dotenv
 from flask import Flask, request
 
 from utils import Utilities
@@ -7,8 +10,9 @@ from utils import Utilities
 app = Flask(__name__)
 
 utils = Utilities()
+load_dotenv()
 client = pymongo.MongoClient(
-    "mongodb+srv://gurasees_singh:Guru123456@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
+    f"mongodb+srv://gurasees_singh:{os.environ.get('password')}@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
 mydb = client["library"]
 
 

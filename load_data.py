@@ -1,5 +1,6 @@
 import pymongo
-
+from dotenv import load_dotenv
+import os
 
 def insert_sample_dataset():
     books = mydb["BOOKS"]
@@ -18,9 +19,9 @@ def insert_sample_dataset():
 
 
 if __name__ == "__main__":
+    load_dotenv()
     client = pymongo.MongoClient(
-        "mongodb+srv://gurasees_singh:Guru123456@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
-    db = client.test
+        f"mongodb+srv://gurasees_singh:{os.environ.get('password')}@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
     mydb = client["library"]
 
     insert_sample_dataset()
