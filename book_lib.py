@@ -7,8 +7,9 @@ from utils import Utilities
 app = Flask(__name__)
 
 utils = Utilities()
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["library"]
+client = pymongo.MongoClient(
+    "mongodb+srv://gurasees_singh:Guru123456@mongo-heroku-cluster.yemgj.mongodb.net/?retryWrites=true&w=majority")
+mydb = client["library"]
 
 
 @app.route('/api/search_book', methods=['POST'])
