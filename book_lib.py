@@ -124,8 +124,16 @@ def total_rent_generated_by_book():
     book_name = data["book_name"]
     if not utils.is_book_in_transactions(book_name, mydb):
         return {"status": "No transaction found for book '{}'".format(book_name)}, 400
-    total_rent = utils.total_rent_generated_by_book(book_name, mydb)
+    total_rent = utils.get_total_rent_generated_by_book(book_name, mydb)
     return {"total_rent": total_rent}, 200
+
+
+@app.route('/api/books_issued_to_person', methods=['POST'])
+def books_issued_to_person():
+    data = request.json
+    person_name = data["person_name"]
+    res = utils.get_books_issued_to_person(person_name, mydb)
+    return {"books": res}, 200
 
 
 if __name__ == '__main__':
