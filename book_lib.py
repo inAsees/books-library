@@ -91,8 +91,6 @@ def book_return():
     if final_date is None:
         return {"status": "Invalid date format '{}'".format(return_date)}, 400
 
-    if utils.is_book_returned(book_name, person_name, mydb):
-        return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 200
     check = utils.is_book_issued(book_name, person_name, final_date, mydb)
     if check is None:
         return {"status": "Invalid return date '{}'.".format(return_date)}, 400
@@ -102,6 +100,8 @@ def book_return():
         return {"status": "Book '{0}' returned successfully by '{1}' on '{2}'. "
                           "Total rent is Rs {3}".format(book_name, person_name, return_date, total_rent)}, 200
     else:
+        if utils.is_book_returned(book_name, person_name, mydb):
+            return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 200
         return {"status": "Book '{}' not issued to '{}'.".format(book_name, person_name)}, 400
 
 
