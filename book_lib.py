@@ -90,6 +90,8 @@ def book_return():
 
     if final_date is None:
         return {"status": "Invalid date format '{}'".format(return_date)}, 400
+    if not utils.is_book_available(book_name, mydb):
+        return {"status": "Book '{}' not found".format(book_name)}, 400
 
     check = utils.is_book_issued(book_name, person_name, final_date, mydb)
     if check is None:
@@ -102,7 +104,10 @@ def book_return():
     else:
         if utils.is_book_returned(book_name, person_name, mydb):
             return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 200
+
         return {"status": "Book '{}' not issued to '{}'.".format(book_name, person_name)}, 400
+
+
 
 
 if __name__ == '__main__':
