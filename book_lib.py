@@ -55,7 +55,7 @@ def get_books_in_price_range_name_and_category():
     res = []
     for book in books_obj:
         if data["min_price"] <= book["rent_per_day"] <= data["max_price"] and data["name"] in book["book_name"] and \
-                data["category"] in book["category"]:
+                data["category"] == book["category"]:
             res.append(json_util.dumps(book))
     if len(res) == 0:
         return {"status": "No books found"}, 400
