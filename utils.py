@@ -41,12 +41,24 @@ class Utilities:
 
     def is_book_issued(self, book_name: str, person_name: str, return_date: date, mydb: Database) -> Optional[bool]:
         for doc in mydb["TRANSACTIONS"].find():
-            if book_name == doc["book_name"] and person_name == doc["person_name"]:
+            if book_name == doc["book_name"] and person_name == doc["person_name"] and doc["return_date"] is None and \
+                    doc["total_rent"] == 0:
                 self._id = doc["_id"]
                 self._issue_date = doc["issue_date"]
                 if not self._is_return_date_valid(return_date, doc["issue_date"]):
                     return None
                 return True
+        return False
+
+    @staticmethod
+    def is_book_returned(book_name: str, person_name: str, mydb: Database) -> bool:
+        res = []
+        for doc in mydb["TRANSACTIONS"].find():
+            if book_name == doc["book_name"] and person_name == doc["person_name"] and isinstance(doc["return_date"]
+                    , datetime) and doc["total_rent"] > 0:
+                res.append(doc)
+        if res:
+            return True
         return False
 
     def update_return_date_and_total_rent(self, return_date: date, rent_per_day: int, mydb: Database) -> int:

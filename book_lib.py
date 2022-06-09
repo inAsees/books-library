@@ -1,6 +1,7 @@
 import bson.json_util as json_util
 import pymongo
 from flask import Flask, request
+
 from utils import Utilities
 
 app = Flask(__name__)
@@ -70,7 +71,9 @@ def book_issue():
         return {"status": "Invalid date format '{}'".format(issue_date)}, 400
 
     if utils.is_book_available(book_name, mydb):
-        mydb["TRANSACTIONS"].insert_one({"person_name": person_name, "book_name": book_name, "issue_date": final_date})
+        mydb["TRANSACTIONS"].insert_one(
+            {"person_name": person_name, "book_name": book_name, "issue_date": final_date, "return_date": None,
+             "total_rent": 0})
         return {"status": "Book '{0}' issued successfully to '{1}' on '{2}'.".format(book_name, person_name,
                                                                                      issue_date)}, 200
     else:
@@ -83,21 +86,21 @@ def book_return():
     person_name = data["person_name"]
     book_name = data["book_name"]
     return_date = data["return_date"]
-
     final_date = utils.get_valid_date_format(return_date)
+
     if final_date is None:
         return {"status": "Invalid date format '{}'".format(return_date)}, 400
 
+    if utils.is_book_returned(book_name, person_name, mydb):
+        return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 200
     check = utils.is_book_issued(book_name, person_name, final_date, mydb)
     if check is None:
         return {"status": "Invalid return date '{}'.".format(return_date)}, 400
     elif check:
-        rent_per_day = utils.rent_per_day(book_name,mydb)
+        rent_per_day = utils.rent_per_day(book_name, mydb)
         total_rent = utils.update_return_date_and_total_rent(final_date, rent_per_day, mydb)
-        return {"status": "Book '{0}' returned successfully by '{1}' on '{2}'. Total rent is Rs {3}".format(book_name,
-                                                                                                            person_name,
-                                                                                                            return_date,
-                                                                                                            total_rent)}, 200
+        return {"status": "Book '{0}' returned successfully by '{1}' on '{2}'. "
+                          "Total rent is Rs {3}".format(book_name, person_name, return_date, total_rent)}, 200
     else:
         return {"status": "Book '{}' not issued to '{}'.".format(book_name, person_name)}, 400
 
