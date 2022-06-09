@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from typing import Optional
+from typing import Optional, List
 
 from pymongo.database import Database
 
@@ -67,6 +67,28 @@ class Utilities:
                                         {"$set": {"return_date": return_date, "total_rent": total_rent}})
 
         return total_rent
+
+    @staticmethod
+    def is_book_in_transactions(book_name: str, mydb: Database) -> bool:
+        for doc in mydb["TRANSACTIONS"].find():
+            if book_name == doc["book_name"]:
+                return True
+
+    @staticmethod
+    def get_persons_having_book(book_name: str, mydb: Database) -> int:
+        res = []
+        for doc in mydb["TRANSACTIONS"].find():
+            if book_name == doc["book_name"] and doc["return_date"] is None and doc["total_rent"] == 0:
+                res.append(doc["person_name"])
+        return len(res)
+
+    @staticmethod
+    def get_persons_who_returned_book(book_name: str, mydb: Database) -> List[str]:
+        res = []
+        for doc in mydb["TRANSACTIONS"].find():
+            if book_name == doc["book_name"] and isinstance(doc["return_date"], datetime) and doc["total_rent"] > 0:
+                res.append(doc["person_name"])
+        return res
 
     @staticmethod
     def rent_per_day(book_name: str, mydb: Database) -> int:

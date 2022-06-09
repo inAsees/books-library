@@ -103,11 +103,19 @@ def book_return():
                           "Total rent is Rs {3}".format(book_name, person_name, return_date, total_rent)}, 200
     else:
         if utils.is_book_returned(book_name, person_name, mydb):
-            return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 200
-
+            return {"status": "Book '{}' already returned by '{}'.".format(book_name, person_name)}, 400
         return {"status": "Book '{}' not issued to '{}'.".format(book_name, person_name)}, 400
 
 
+@app.route('/api/search_books_issued_or_returned', methods=['POST'])
+def books_issued_by_person():
+    data = request.json
+    book_name = data["book_name"]
+    if not utils.is_book_in_transactions(book_name, mydb):
+        return {"status": "No transaction found for book '{}'".format(book_name)}, 400
+    persons_having_book = utils.get_persons_having_book(book_name, mydb)
+    persons_returned_book = utils.get_persons_who_returned_book(book_name, mydb)
+    return {"persons_having_book": persons_having_book, "persons_returned_book": persons_returned_book}, 200
 
 
 if __name__ == '__main__':
