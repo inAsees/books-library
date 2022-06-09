@@ -84,8 +84,7 @@ APIs using only 'POST' method.
    ```
 
 ## Contact
+Gurasees Singh - gurasees.singh121@gmail.com
 
-Kevin Lee - gurasees.singh121@gmail.com
-
-Project Link: [https://github.com/inAsees/books_library](https://github.com/kevinclee26/mongo_heroku_demo)
+Project Link: [https://github.com/inAsees/books_library](https://github.com/inAsees/books_library)
 
