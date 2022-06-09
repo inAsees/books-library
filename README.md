@@ -2,7 +2,7 @@
 
 ## About The Project
 
-This project mimics the work of a Librarian , who keeps all the records of the people to whom the is book is being
+This project mimics the work of a Librarian , who keeps all the records of the people to whom the  book is being
 issued and the people who have returned the book.All the records are stored in a database(MongoDB).
 
 ### Built With
