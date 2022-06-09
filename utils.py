@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 from pymongo.database import Database
 
@@ -107,11 +107,11 @@ class Utilities:
         return res
 
     @staticmethod
-    def get_books_issued_in_date_range(start_date: date, end_date: date, mydb: Database) -> List[str]:
+    def get_books_issued_in_date_range(start_date: date, end_date: date, mydb: Database) -> List[Dict]:
         res = []
         for doc in mydb["TRANSACTIONS"].find():
             if isinstance(doc["issue_date"], datetime) and start_date <= doc["issue_date"] <= end_date:
-                res.append(doc["book_name"])
+                res.append({"book_name": doc["book_name"], "person_name": doc["person_name"]})
         return res
 
     @staticmethod
