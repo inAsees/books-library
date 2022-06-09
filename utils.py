@@ -45,7 +45,7 @@ class Utilities:
                     doc["total_rent"] == 0:
                 self._id = doc["_id"]
                 self._issue_date = doc["issue_date"]
-                if not self.is_date_valid(return_date, doc["issue_date"]):
+                if not self.is_date_valid(doc["issue_date"], return_date):
                     return None
                 return True
         return False
