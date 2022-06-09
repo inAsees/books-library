@@ -91,6 +91,14 @@ class Utilities:
         return res
 
     @staticmethod
+    def total_rent_generated_by_book(book_name: str, mydb: Database) -> int:
+        res = []
+        for doc in mydb["TRANSACTIONS"].find():
+            if book_name == doc["book_name"] and isinstance(doc["return_date"], datetime) and doc["total_rent"] > 0:
+                res.append(doc["total_rent"])
+        return sum(res)
+
+    @staticmethod
     def rent_per_day(book_name: str, mydb: Database) -> int:
         for data in mydb["BOOKS"].find():
             if book_name == data["book_name"]:
