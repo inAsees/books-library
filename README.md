@@ -14,7 +14,6 @@ issued and the people who have returned the book.All the records are stored in a
 
 ### Prerequisites
 
-<!-- This is an example of how to list things you need to use the software and how to install them. -->
 
 * Python
 * Flask
@@ -23,7 +22,7 @@ issued and the people who have returned the book.All the records are stored in a
 ## Getting Started
 
 The Web Application is hosted by Heroku. You can access the application by only APIs , and you have to request for the
-APIs using only 'POST' method.
+APIs using only 'POST' method and sending Input parameters inside the body as JSON.
 
 ### Following are the APIs that are available in the application,with their respective descriptions and Input/Output parameters.:
 
