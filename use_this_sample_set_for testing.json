@@ -1,0 +1,141 @@
+[{
+  "_id": {
+    "$oid": "62a0d7dcaf47dc1d68cfc46a"
+  },
+  "book_name": "In Search of Lost Time",
+  "category": "Action and adventure",
+  "rent_per_day": 10
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc46b"
+  },
+  "book_name": "Ulysses",
+  "category": "Alternate history",
+  "rent_per_day": 15
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc46c"
+  },
+  "book_name": "Don Quixote",
+  "category": "Children's",
+  "rent_per_day": 15
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc46d"
+  },
+  "book_name": "The Great Gatsby",
+  "category": "Classic",
+  "rent_per_day": 30
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc46e"
+  },
+  "book_name": "Moby Dick",
+  "category": "Comic book",
+  "rent_per_day": 5
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc46f"
+  },
+  "book_name": "Hamlet",
+  "category": "Horror",
+  "rent_per_day": 10
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc470"
+  },
+  "book_name": "The Odyssey",
+  "category": "Crime",
+  "rent_per_day": 12
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc471"
+  },
+  "book_name": "The Iliad",
+  "category": "Fairytale",
+  "rent_per_day": 20
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc472"
+  },
+  "book_name": "One Hundred Years of Solitude",
+  "category": "Mystery",
+  "rent_per_day": 5
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc473"
+  },
+  "book_name": "The Republic",
+  "category": "Poetry",
+  "rent_per_day": 50
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc474"
+  },
+  "book_name": "The Book of Job",
+  "category": "Romance",
+  "rent_per_day": 40
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc475"
+  },
+  "book_name": "The Book of Kahlil",
+  "category": "Science fiction",
+  "rent_per_day": 11
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc476"
+  },
+  "book_name": "War and Peace ",
+  "category": "Thriller",
+  "rent_per_day": 35
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc477"
+  },
+  "book_name": "Madame Bovary",
+  "category": "Young adult",
+  "rent_per_day": 15
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc478"
+  },
+  "book_name": "The Divine Comedy",
+  "category": "Fantasy",
+  "rent_per_day": 20
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc479"
+  },
+  "book_name": "The Brothers Karamazov",
+  "category": "Historical fiction",
+  "rent_per_day": 50
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc47a"
+  },
+  "book_name": "Crime and Punishment",
+  "category": "Historical novel",
+  "rent_per_day": 80
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc47b"
+  },
+  "book_name": "The Metamorphosis",
+  "category": "Historical romance",
+  "rent_per_day": 10
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc47c"
+  },
+  "book_name": "The Brothers Grimm",
+  "category": "Historical thriller",
+  "rent_per_day": 70
+},{
+  "_id": {
+    "$oid": "62a0d7ddaf47dc1d68cfc47d"
+  },
+  "book_name": "The Picture of Dorian Gray",
+  "category": "Horror",
+  "rent_per_day": 10
+}]
