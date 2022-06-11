@@ -22,7 +22,8 @@ issued and the people who have returned the book.All the records are stored in a
 ## Getting Started
 
 The Web Application is hosted by Heroku. You can access the application by only APIs , and you have to request for the
-APIs using only 'POST' method and sending Input parameters inside the body as JSON.
+APIs using only 'POST' method and sending Input parameters inside the body as JSON. Use the file named 'use_this_sample_set_for_testing.json'
+to test the application.
 
 ### Following are the APIs that are available in the application,with their respective descriptions and Input/Output parameters.:
 
